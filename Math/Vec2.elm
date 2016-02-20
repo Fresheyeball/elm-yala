@@ -73,8 +73,8 @@ neg =
 
 {-|-}
 scale : Float -> Vec2 -> Vec2
-scale s v =
-  { x = v.x * s, y = v.y * s }
+scale =
+    mapBoth << (*)
 
 {-|-}
 dot : Vec2 -> Vec2 -> Float
