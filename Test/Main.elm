@@ -5,6 +5,7 @@ import Check.Test exposing (..)
 import Check.Investigator exposing (..)
 import Shrink exposing (Shrinker)
 import Math.Vec2 as V exposing (Vec2)
+import Math.Interpolate as I
 import Random.Extra as R
 import Random
 import Nearly exposing ((~=))
@@ -190,6 +191,7 @@ algebra =
     , associativeScalar
     , distributiveScalar
     ]
+
 
 port runner : Signal (Task.Task x ())
 port runner =
