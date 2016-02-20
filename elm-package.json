@@ -6,9 +6,13 @@
     "source-directories": [
         "."
     ],
-    "exposed-modules": ["Math.Vec2","Math.Interpolate"],
+    "exposed-modules": [
+        "Math.Vec2",
+        "Math.Interpolate"
+    ],
     "dependencies": {
-        "elm-lang/core": "3.0.0 <= v < 4.0.0"
+        "elm-lang/core": "3.0.0 <= v < 4.0.0",
+        "evancz/focus": "2.0.0 <= v < 3.0.0"
     },
     "elm-version": "0.16.0 <= v < 0.17.0"
 }
