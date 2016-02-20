@@ -1,2 +1,3 @@
-# elm-yala
-Yet another linear algebra library 
+# Yala
+
+Yet Another Linear Algebra library for Elm
