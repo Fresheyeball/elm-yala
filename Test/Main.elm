@@ -197,6 +197,54 @@ algebra =
     , distributiveScalar
     ]
 
+
+distanceAndMagnitude : Test
+distanceAndMagnitude =
+    let
+        (<->) =
+            V.sub
+
+        dIsMfromZ a =
+            V.distance V.zero a ~= V.magnitude a
+
+        morgan a b =
+            abs (V.distance a b) ~= V.magnitude (a <-> b)
+
+    in
+    assert2
+        "distance and magnitude"
+        (\a b -> dIsMfromZ a && morgan a b)
+        vec2
+        vec2
+        cycles
+        seed
+
+directionAndMagnitude : Test
+directionAndMagnitude =
+    let
+        (**) =
+            V.scale
+
+        (<+>) =
+            V.add
+
+        (<->) =
+            V.sub
+
+        morgan v u =
+            v <+> (V.magnitude (v <-> u) ** V.direction u v) ~ u
+
+    in
+    assert2
+        "direction and magnitude"
+        morgan
+        vec2
+        vec2
+        cycles
+        seed
+
+
+
 lerp : Test
 lerp =
     let
@@ -207,10 +255,12 @@ lerp =
             I.lerp 0 1 a ~= a
 
         morgan a b c d =
-            (I.lerp a b c + I.lerp a b d) ~= (I.lerp a b (c + d) + a)
+               (I.lerp a b c + I.lerp a b d)
+            ~= (I.lerp a b (c + d) + a)
 
         derivative a b d w x =
-            (I.lerp a b w - I.lerp a b (w + d)) ~= (I.lerp a b x - I.lerp a b (x + d))
+               (I.lerp a b w - I.lerp a b (w + d))
+            ~= (I.lerp a b x - I.lerp a b (x + d))
 
     in
       assert5
@@ -229,4 +279,4 @@ port runner : Signal (Task.Task x ())
 port runner =
   Console.run <| consoleRunner <| T.suite
     "All tests"
-    [algebra, lerp]
+    [algebra, lerp, distanceAndMagnitude, directionAndMagnitude]

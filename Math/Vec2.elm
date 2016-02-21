@@ -3,7 +3,7 @@ module Math.Vec2 (..) where
 {-|
 
 # Vec2 type
-@docs Vec2, x, y
+@docs Vec2, x, y, zero
 
 # Operations
 @docs bimap, mapBoth, add, sub, mul, div, neg, scale
@@ -31,13 +31,16 @@ y : Focus.Focus { b | y : a } a
 y =
   Focus.create .y (\f big -> { big | y = f big.y })
 
+{-| An empty Vector -}
+zero : Vec2
+zero = Vec2 0 0
+
 {-|
 transform both x and y with the same function
 -}
 mapBoth : (Float -> Float) -> Vec2 -> Vec2
 mapBoth f {x,y} =
     {x = f x, y = f y}
-
 
 {-|
 apply a function accross `x`'s and `y`'s
