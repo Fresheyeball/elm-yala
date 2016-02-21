@@ -180,6 +180,11 @@ additiveMonoid =
       seed
 
 
+rangeFloat : Float -> Float -> Investigator Float
+rangeFloat min max =
+  investigator (Random.float min max) Shrink.float
+
+
 algebra : Test
 algebra =
   T.suite
@@ -192,7 +197,36 @@ algebra =
     , distributiveScalar
     ]
 
+lerp : Test
+lerp =
+    let
+        bounds a b =
+            I.lerp a b 1 ~= b && I.lerp a b 0 ~= a
+
+        id a =
+            I.lerp 0 1 a ~= a
+
+        morgan a b c d =
+            (I.lerp a b c + I.lerp a b d) ~= (I.lerp a b (c + d) + a)
+
+        derivative a b d w x =
+            (I.lerp a b w - I.lerp a b (w + d)) ~= (I.lerp a b x - I.lerp a b (x + d))
+
+    in
+      assert5
+        "lerp"
+        (\a b d x y -> bounds a b && id a && morgan a b x y && derivative a b d x y)
+        float
+        float
+        float
+        (rangeFloat 0.0 1.0)
+        (rangeFloat 0.0 1.0)
+        cycles
+        seed
+
 
 port runner : Signal (Task.Task x ())
 port runner =
-  Console.run (consoleRunner algebra)
+  Console.run <| consoleRunner <| T.suite
+    "All tests"
+    [algebra, lerp]
