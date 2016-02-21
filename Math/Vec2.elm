@@ -17,7 +17,7 @@ module Math.Vec2 (..) where
 
 import Focus
 
-{-|-}
+{-| a 2d Vector -}
 type alias Vec2 =
   { x : Float, y : Float }
 
@@ -36,55 +36,71 @@ zero : Vec2
 zero = Vec2 0 0
 
 {-|
-transform both x and y with the same function
+Transform both x and y with the same function
 -}
 mapBoth : (Float -> Float) -> Vec2 -> Vec2
 mapBoth f {x,y} =
     {x = f x, y = f y}
 
 {-|
-apply a function accross `x`'s and `y`'s
+Apply a function accross `x`'s and `y`'s
 -}
 bimap : (Float -> Float -> Float) -> Vec2 -> Vec2 -> Vec2
 bimap f a b =
   { x = f a.x b.x, y = f a.y b.y }
 
-{-|-}
+{-|
+Vector addition
+-}
 add : Vec2 -> Vec2 -> Vec2
 add =
   bimap (+)
 
-{-|-}
+{-|
+Vector subtraction
+-}
 sub : Vec2 -> Vec2 -> Vec2
 sub =
   bimap (-)
 
-{-|-}
+{-|
+Vector multiplication
+-}
 mul : Vec2 -> Vec2 -> Vec2
 mul =
   bimap (*)
 
-{-|-}
+{-|
+Vector division
+-}
 div : Vec2 -> Vec2 -> Vec2
 div =
   bimap (/)
 
-{-|-}
+{-|
+Negate a Vector (flip x and y to negative)
+-}
 neg : Vec2 -> Vec2
 neg =
   mapBoth (\z -> -z)
 
-{-|-}
+{-|
+Scalar Vector multiplication
+-}
 scale : Float -> Vec2 -> Vec2
 scale =
     mapBoth << (*)
 
-{-|-}
+{-|
+Dot Product
+-}
 dot : Vec2 -> Vec2 -> Float
 dot a b =
   a.x * b.x + a.y * b.y
 
-{-|-}
+{-|
+Get magnitude of a Vector (length of the Vector)
+-}
 magnitude : Vec2 -> Float
 magnitude v =
   dot v v
@@ -95,7 +111,9 @@ angle : Vec2 -> Float
 angle v =
   atan2 v.y v.x
 
-{-|-}
+{-|
+Get the distance between two Vectors
+-}
 distance : Vec2 -> Vec2 -> Float
 distance a b =
   let
@@ -104,12 +122,16 @@ distance a b =
   in
     sqrt <| x * x + y * y
 
-{-|-}
+{-|
+A unit vector with the same direction as the given vector: a / |a|
+-}
 normalize : Vec2 -> Vec2
 normalize v =
   scale (1.0 / magnitude v) v
 
-{-|-}
+{-|
+The normalized direction from b to a: (a - b) / |a - b| 
+-}
 direction : Vec2 -> Vec2 -> Vec2
 direction a b =
   let
