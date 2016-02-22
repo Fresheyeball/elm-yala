@@ -249,18 +249,18 @@ lerp : Test
 lerp =
     let
         bounds a b =
-            I.lerp a b 1 ~= b && I.lerp a b 0 ~= a
+            I.lerp 1 a b ~= b && I.lerp 0 a b ~= a
 
         id a =
-            I.lerp 0 1 a ~= a
+            I.lerp a 0 1 ~= a
 
         morgan a b c d =
-               (I.lerp a b c + I.lerp a b d)
-            ~= (I.lerp a b (c + d) + a)
+               (I.lerp c a b + I.lerp d a b)
+            ~= (I.lerp (c + d) a b + a)
 
         derivative a b d w x =
-               (I.lerp a b w - I.lerp a b (w + d))
-            ~= (I.lerp a b x - I.lerp a b (x + d))
+               (I.lerp b w a - I.lerp b (w + d) a)
+            ~= (I.lerp b x a - I.lerp b (x + d) a)
 
     in
       assert5
